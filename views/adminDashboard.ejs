@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Painel do Administrador</title>
+</head>
+<body>
+  <h1>Painel do Administrador</h1>
+  <% if (tickets.length > 0) { %>
+    <h2>Chamados Pendentes</h2>
+    <ul>
+      <% tickets.forEach(ticket => { %>
+        <li><strong>Assunto:</strong> <%= ticket.subject %> - <strong>Status:</strong> <%= ticket.status %> - <strong>Categoria:</strong> <%= ticket.category %></li>
+        <p><%= ticket.description %></p>
+        <form method="post" action="/admin/respond/<%= ticket._id %>">
+          <textarea name="response" placeholder="Responder ao chamado"></textarea>
+          <input type="submit" value="Responder" />
+        </form>
+        <hr />
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>Não há chamados pendentes.</p>
+  <% } %>
+  <a href="/logout">Sair</a>
+</body>
+</html>

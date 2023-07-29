@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Painel do Usuário</title>
+</head>
+<body>
+  <!-- ... -->
+  <h2>Novo Chamado</h2>
+  <form method="post" action="/create-ticket">
+    <input type="text" name="subject" placeholder="Assunto" required />
+    <textarea name="description" placeholder="Descrição" required></textarea>
+    <select name="category" required>
+      <option value="" selected disabled>Selecione a categoria</option>
+      <option value="Hardware">Hardware</option>
+      <option value="Software">Software</option>
+      <option value="Rede">Rede</option>
+      <!-- Adicione mais categorias conforme necessário -->
+    </select>
+    <input type="submit" value="Criar Chamado" />
+  </form>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registro</title>
+</head>
+<body>
+  <% if (message.length > 0) { %>
+    <p><%= message %></p>
+  <% } %>
+  <h1>Registro</h1>
+  <form method="post" action="/register">
+    <input type="text" name="username" placeholder="Nome de usuário" required />
+    <input type="password" name="password" placeholder="Senha" required />
+    <input type="password" name="confirmPassword" placeholder="Confirme a senha" required />
+    <input type="submit" value="Registrar" />
+  </form>
+  <a href="/login">Já possui uma conta? Faça login</a>
+</body>
+</html>
