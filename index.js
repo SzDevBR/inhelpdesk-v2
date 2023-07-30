@@ -150,6 +150,10 @@ app.post('/user/create-ticket', isLoggedIn, async (req, res) => {
   }
 });
 
+app.get('/user/create-ticket', isLoggedIn, (req, res) => {
+  res.render('createTicket', { message: req.flash('message') });
+});
+
 
 // Rota para o logout
 app.get('/logout', (req, res) => {
