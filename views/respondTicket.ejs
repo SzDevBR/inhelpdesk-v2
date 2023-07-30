@@ -1,0 +1,39 @@
+<!-- respondTicket.ejs -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responder Chamado</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Responder Chamado</h2>
+    <div class="ticket-details">
+      <h3>Detalhes do Chamado</h3>
+      <p><strong>ID do Chamado:</strong> <%= ticket._id %></p>
+      <p><strong>Categoria:</strong> <%= ticket.category %></p>
+      <p><strong>Assunto:</strong> <%= ticket.subject %></p>
+      <p><strong>Descrição:</strong> <%= ticket.description %></p>
+      <p><strong>Data de Criação:</strong> <%= ticket.createdAt.toLocaleString() %></p>
+
+      <!-- Exibir link para o anexo, caso exista -->
+      <% if (ticket.attachment) { %>
+        <p><strong>Anexo:</strong> <a href="/attachments/<%= ticket.attachment %>">Visualizar Anexo</a></p>
+      <% } %>
+    </div>
+    <form class="respond-ticket-form" method="POST" action="/respond-ticket/<%= ticket._id %>" enctype="multipart/form-data">
+      <label for="message">Mensagem de Resposta</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+
+      <!-- Novo campo para anexar arquivo -->
+      <label for="attachment">Anexar Arquivo (até 50MB)</label>
+      <input type="file" id="attachment" name="attachment" accept=".jpg, .jpeg, .png, .pdf" required>
+
+      <input type="submit" value="Responder">
+    </form>
+  </div>
+</body>
+</html>
