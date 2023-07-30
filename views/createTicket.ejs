@@ -1,14 +1,46 @@
-<!-- createTicket.ejs -->
-<form action="/user/create-ticket" method="POST">
-  <!-- Campos do formulário -->
-  <label for="subject">Assunto:</label>
-  <input type="text" id="subject" name="subject" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Chamado - Help Desk</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/" class="logo">Help Desk</a>
+      <ul>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Registrar</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="create-ticket-form">
+      <h2>Criar Chamado</h2>
+      <form action="/create-ticket" method="post">
+        <label for="subject">Assunto:</label>
+        <input type="text" id="subject" name="subject" required>
 
-  <label for="description">Descrição:</label>
-  <textarea id="description" name="description" required></textarea>
+        <label for="category">Categoria:</label>
+        <select id="category" name="category" required>
+          <option value="" disabled selected>Selecione uma categoria</option>
+          <option value="Hardware">Hardware</option>
+          <option value="Software">Software</option>
+          <option value="Rede">Rede</option>
+          <!-- Adicione mais opções de categorias conforme necessário -->
+        </select>
 
-  <label for="category">Categoria:</label>
-  <input type="text" id="category" name="category" required>
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
 
-  <input type="submit" value="Criar Chamado">
-</form>
+        <input type="submit" value="Enviar Chamado">
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>Todos os direitos reservados &copy; 2023 Help Desk</p>
+  </footer>
+</body>
+</html>
