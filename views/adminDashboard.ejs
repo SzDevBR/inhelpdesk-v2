@@ -1,26 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Painel do Administrador</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Administração - Help Desk</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>Painel do Administrador</h1>
-  <% if (tickets.length > 0) { %>
-    <h2>Chamados Pendentes</h2>
-    <ul>
-      <% tickets.forEach(ticket => { %>
-        <li><strong>Assunto:</strong> <%= ticket.subject %> - <strong>Status:</strong> <%= ticket.status %> - <strong>Categoria:</strong> <%= ticket.category %></li>
-        <p><%= ticket.description %></p>
-        <form method="post" action="/admin/respond/<%= ticket._id %>">
-          <textarea name="response" placeholder="Responder ao chamado"></textarea>
-          <input type="submit" value="Responder" />
-        </form>
-        <hr />
-      <% }); %>
-    </ul>
-  <% } else { %>
-    <p>Não há chamados pendentes.</p>
-  <% } %>
-  <a href="/logout">Sair</a>
+  <header>
+    <nav>
+      <a href="/" class="logo">Help Desk</a>
+      <ul>
+        <li><a href="/admin/dashboard">Painel de Administração</a></li>
+        <li><a href="/logout">Sair</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="ticket-list">
+      <h2>Chamados Pendentes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Assunto</th>
+            <th>Categoria</th>
+            <th>Enviado Por</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aqui você pode adicionar dinamicamente as linhas da tabela com os chamados pendentes -->
+          <!-- Exemplo: -->
+          <tr>
+            <td>Problema de Conexão</td>
+            <td>Rede</td>
+            <td>user@example.com</td>
+            <td>
+              <a href="/admin/respond-ticket/1">Responder</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Problema de Impressão</td>
+            <td>Hardware</td>
+            <td>anotheruser@example.com</td>
+            <td>
+              <a href="/admin/respond-ticket/2">Responder</a>
+            </td>
+          </tr>
+          <!-- Adicione mais linhas conforme necessário -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <p>Todos os direitos reservados &copy; 2023 Help Desk</p>
+  </footer>
 </body>
 </html>
