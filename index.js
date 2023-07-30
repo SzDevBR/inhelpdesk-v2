@@ -132,19 +132,15 @@ app.get('/admin/dashboard', isAdminMiddleware, async (req, res) => {
   }
 });
 
-// Rota para exibir o formulário de criação de chamados
-app.get('/user/create-ticket', isLoggedIn, (req, res) => {
-  res.render('createTicket', { message: req.flash('message') });
-});
-
-// Rota para processar a criação de um novo chamado
 app.post('/user/create-ticket', isLoggedIn, async (req, res) => {
   try {
     const { subject, description, category } = req.body;
 
+    // Crie um novo chamado e salve-o no banco de dados
     const newTicket = new Ticket({ user: req.session.user._id, subject, description, category });
     await newTicket.save();
 
+    // Redirecione para o painel do usuário com uma mensagem de sucesso
     req.flash('message', 'Chamado criado com sucesso!');
     res.redirect('/user/dashboard');
   } catch (error) {
@@ -153,6 +149,7 @@ app.post('/user/create-ticket', isLoggedIn, async (req, res) => {
     res.redirect('/user/create-ticket');
   }
 });
+
 
 // Rota para o logout
 app.get('/logout', (req, res) => {
