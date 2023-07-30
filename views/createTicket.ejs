@@ -19,6 +19,10 @@
   <main>
     <section class="create-ticket-form">
       <h2>Criar Chamado</h2>
+
+      <% if (message.length > 0) { %>
+        <p class="message"><%= message %></p>
+      <% } %>
       <form action="/create-ticket" method="post" enctype="multipart/form-data">
         <label for="subject">Assunto:</label>
         <input type="text" id="subject" name="subject" required>
