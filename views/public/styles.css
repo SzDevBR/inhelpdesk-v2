@@ -1,0 +1,85 @@
+/* styles.css */
+
+/* Estilos gerais */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+}
+
+header h1 {
+  margin: 0;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+nav ul li:last-child {
+  margin-right: 0;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+main {
+  padding: 2rem;
+  text-align: center;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Estilos específicos para a página de login */
+.login-form {
+  background-color: #f0f0f0;
+  padding: 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.login-form h2 {
+  margin-bottom: 1rem;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+}
+
+.login-form input[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.login-form input[type="submit"]:hover {
+  background-color: #555;
+}
