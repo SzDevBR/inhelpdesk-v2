@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -6,7 +5,7 @@ const { User, Ticket } = require('./models');
 const bcrypt = require('bcryptjs');
 const mongoose = require('./db');
 const bodyParser = require('body-parser');
-const multer = require('multer'); // Adicione esta linha para lidar com o upload de arquivos
+const multer = require('multer');
 const path = require('path');
 
 const app = express();
@@ -14,13 +13,11 @@ const PORT = 3000;
 
 const db = require('./db');
 
-
 // Configurações do Express
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(session({ secret: 'your-secret-key', resave: true, saveUninitialized: true }));
 app.use(flash());
-
 app.use(express.static('public'));
 
 // Middleware para verificar se o usuário está logado
@@ -33,9 +30,9 @@ const isLoggedIn = (req, res, next) => {
 };
 
 const upload = multer({
-  dest: 'uploads/', // Diretório onde os arquivos serão armazenados temporariamente
+  dest: 'uploads/',
   limits: {
-    fileSize: 50 * 1024 * 1024, // Limite de 50 MB em bytes
+    fileSize: 50 * 1024 * 1024,
   },
 });
 
@@ -124,7 +121,7 @@ app.post('/login', async (req, res) => {
 });
 
 // Rota para renderizar o painel de administração
-app.get('/admin/dashboard', (req, res) => {
+app.get('/admin/dashboard', isAdminMiddleware, (req, res) => {
   // Aqui você pode buscar os chamados pendentes no banco de dados e passá-los para a página de adminDashboard.ejs
   // Exemplo:
   Ticket.find({ status: 'pending' }, (err, tickets) => {
@@ -138,7 +135,7 @@ app.get('/admin/dashboard', (req, res) => {
 });
 
 // Rota para renderizar a página de resposta de chamados
-app.get('/admin/respond-ticket/:id', (req, res) => {
+app.get('/admin/respond-ticket/:id', isAdminMiddleware, (req, res) => {
   // Aqui você pode buscar o chamado pelo ID no banco de dados e passá-lo para a página de respondTicket.ejs
   // Exemplo:
   const ticketId = req.params.id;
@@ -153,7 +150,7 @@ app.get('/admin/respond-ticket/:id', (req, res) => {
 });
 
 // Rota para tratar o envio da resposta do chamado
-app.post('/admin/respond-ticket/:id', (req, res) => {
+app.post('/admin/respond-ticket/:id', isAdminMiddleware, (req, res) => {
   // Aqui você pode atualizar o chamado com a resposta do administrador e alterar o status para "responded"
   // Exemplo:
   const ticketId = req.params.id;
@@ -173,15 +170,13 @@ app.post('/admin/respond-ticket/:id', (req, res) => {
   );
 });
 
-
-
 // Rota para renderizar a página de criação de chamados
 app.get('/create-ticket', (req, res) => {
   res.render('createTicket');
 });
 
 // Rota para tratar o envio do formulário de criação de chamados
-app.post('/create-ticket', upload.single('attachment'), (req, res) => {
+app.post('/create-ticket', isLoggedIn, upload.single('attachment'), (req, res) => {
   const { subject, category, description } = req.body;
 
   // Acesso ao arquivo enviado pelo usuário (se fornecido)
@@ -201,18 +196,39 @@ app.post('/create-ticket', upload.single('attachment'), (req, res) => {
       console.error('Erro ao criar o chamado:', err);
       res.status(500).send('Erro ao criar o chamado.');
     } else {
-      const message = 'Chamado criado com sucesso!';
+      req.flash('message', 'Chamado criado com sucesso!');
       res.redirect('/create-ticket');
     }
   });
 });
 
-
-
 // Rota para o logout
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
+});
+
+// Rota para lidar com o download do arquivo anexado
+app.get('/attachments/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, 'uploads', filename);
+  res.download(filePath);
+});
+
+// Rota de erro para quando uma rota não for encontrada
+app.use((req, res, next) => {
+  res.status(404).send('Página não encontrada.');
+});
+
+// Rota de erro para tratar outros erros
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Ocorreu um erro no servidor.');
+});
+
+// Iniciar o servidor
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
 
 // Iniciar o servidor
