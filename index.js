@@ -12,6 +12,10 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
+const db = require('./db');
+const Ticket = require('./models');
+
+
 // Configurações do Express
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
@@ -28,6 +32,13 @@ const isLoggedIn = (req, res, next) => {
   req.flash('message', 'Faça login para acessar esta página.');
   res.redirect('/login');
 };
+
+const upload = multer({
+  dest: 'uploads/', // Diretório onde os arquivos serão armazenados temporariamente
+  limits: {
+    fileSize: 50 * 1024 * 1024, // Limite de 50 MB em bytes
+  },
+});
 
 // Middleware para verificar se o usuário é um administrador
 const isAdminMiddleware = (req, res, next) => {
@@ -113,6 +124,20 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Rota para renderizar o painel de administração
+app.get('/admin/dashboard', (req, res) => {
+  // Aqui você pode buscar os chamados pendentes no banco de dados e passá-los para a página de adminDashboard.ejs
+  // Exemplo:
+  Ticket.find({ status: 'pending' }, (err, tickets) => {
+    if (err) {
+      console.error('Erro ao buscar os chamados pendentes:', err);
+      res.status(500).send('Erro ao buscar os chamados pendentes.');
+    } else {
+      res.render('adminDashboard', { tickets });
+    }
+  });
+});
+
 // Rota para renderizar a página de resposta de chamados
 app.get('/admin/respond-ticket/:id', (req, res) => {
   // Aqui você pode buscar o chamado pelo ID no banco de dados e passá-lo para a página de respondTicket.ejs
@@ -149,56 +174,39 @@ app.post('/admin/respond-ticket/:id', (req, res) => {
   );
 });
 
-// Rota para a página do usuário
-app.get('/user/dashboard', isLoggedIn, async (req, res) => {
-  try {
-    const userTickets = await Ticket.find({ user: req.session.user._id });
-    res.render('userDashboard', { user: req.session.user, tickets: userTickets });
-  } catch (error) {
-    console.error(error);
-    req.flash('message', 'Ocorreu um erro ao carregar o painel do usuário.');
-    res.redirect('/');
-  }
+
+
+// Rota para renderizar a página de criação de chamados
+app.get('/create-ticket', (req, res) => {
+  res.render('createTicket');
 });
 
-// Rota para renderizar o painel de administração
-app.get('/admin/dashboard', (req, res) => {
-  // Aqui você pode buscar os chamados pendentes no banco de dados e passá-los para a página de adminDashboard.ejs
-  // Exemplo:
-  Ticket.find({ status: 'pending' }, (err, tickets) => {
+// Rota para tratar o envio do formulário de criação de chamados
+app.post('/create-ticket', upload.single('attachment'), (req, res) => {
+  const { subject, category, description } = req.body;
+
+  // Acesso ao arquivo enviado pelo usuário (se fornecido)
+  const attachment = req.file;
+  // Aqui você pode salvar o arquivo em um local permanente, se necessário
+
+  // Crie um novo chamado no banco de dados
+  const newTicket = new Ticket({
+    subject,
+    category,
+    description,
+    attachment: attachment ? attachment.filename : null, // Armazena o nome do arquivo se houver anexo
+  });
+
+  newTicket.save((err, savedTicket) => {
     if (err) {
-      console.error('Erro ao buscar os chamados pendentes:', err);
-      res.status(500).send('Erro ao buscar os chamados pendentes.');
+      console.error('Erro ao criar o chamado:', err);
+      res.status(500).send('Erro ao criar o chamado.');
     } else {
-      res.render('adminDashboard', { tickets });
+      const message = 'Chamado criado com sucesso!';
+      res.redirect('/create-ticket');
     }
   });
 });
-
-
-
-app.get('/user/create-ticket', isLoggedIn, (req, res) => {
-  res.render('createTicket', { message: req.flash('message') });
-}); 
-
-app.post('/user/create-ticket', isLoggedIn, async (req, res) => {
-  try {
-    const { subject, description, category } = req.body;
-
-    // Crie um novo chamado e salve-o no banco de dados
-    const newTicket = new Ticket({ user: req.session.user._id, subject, description, category });
-    await newTicket.save();
-
-    // Redirecione para o painel do usuário com uma mensagem de sucesso
-    req.flash('message', 'Chamado criado com sucesso!');
-    res.redirect('/user/dashboard');
-  } catch (error) {
-    console.error(error);
-    req.flash('message', 'Ocorreu um erro ao criar o chamado.');
-    res.redirect('/user/create-ticket');
-  }
-});
-
 
 
 
