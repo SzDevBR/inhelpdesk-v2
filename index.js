@@ -131,6 +131,9 @@ app.get('/admin/dashboard', isAdminMiddleware, async (req, res) => {
     res.redirect('/');
   }
 });
+app.get('/user/create-ticket', isLoggedIn, (req, res) => {
+  res.render('createTicket', { message: req.flash('message') });
+}); 
 
 app.post('/user/create-ticket', isLoggedIn, async (req, res) => {
   try {
@@ -150,9 +153,7 @@ app.post('/user/create-ticket', isLoggedIn, async (req, res) => {
   }
 });
 
-app.get('/user/create-ticket', isLoggedIn, (req, res) => {
-  res.render('createTicket', { message: req.flash('message') });
-});
+
 
 
 // Rota para o logout
