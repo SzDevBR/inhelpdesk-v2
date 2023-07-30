@@ -110,6 +110,42 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Rota para renderizar a página de resposta de chamados
+app.get('/admin/respond-ticket/:id', (req, res) => {
+  // Aqui você pode buscar o chamado pelo ID no banco de dados e passá-lo para a página de respondTicket.ejs
+  // Exemplo:
+  const ticketId = req.params.id;
+  Ticket.findById(ticketId, (err, ticket) => {
+    if (err) {
+      console.error('Erro ao buscar o chamado:', err);
+      res.status(500).send('Erro ao buscar o chamado.');
+    } else {
+      res.render('respondTicket', { ticket });
+    }
+  });
+});
+
+// Rota para tratar o envio da resposta do chamado
+app.post('/admin/respond-ticket/:id', (req, res) => {
+  // Aqui você pode atualizar o chamado com a resposta do administrador e alterar o status para "responded"
+  // Exemplo:
+  const ticketId = req.params.id;
+  const response = req.body.response;
+
+  Ticket.findByIdAndUpdate(
+    ticketId,
+    { response: response, status: 'responded' },
+    (err, ticket) => {
+      if (err) {
+        console.error('Erro ao atualizar o chamado:', err);
+        res.status(500).send('Erro ao atualizar o chamado.');
+      } else {
+        res.redirect('/admin/dashboard');
+      }
+    }
+  );
+});
+
 // Rota para a página do usuário
 app.get('/user/dashboard', isLoggedIn, async (req, res) => {
   try {
@@ -122,17 +158,22 @@ app.get('/user/dashboard', isLoggedIn, async (req, res) => {
   }
 });
 
-// Rota para a página do administrador
-app.get('/admin/dashboard', isAdminMiddleware, async (req, res) => {
-  try {
-    const tickets = await Ticket.find({ status: 'open' }).populate('user', 'username');
-    res.render('adminDashboard', { tickets });
-  } catch (error) {
-    console.error(error);
-    req.flash('message', 'Ocorreu um erro ao carregar o painel do administrador.');
-    res.redirect('/');
-  }
+// Rota para renderizar o painel de administração
+app.get('/admin/dashboard', (req, res) => {
+  // Aqui você pode buscar os chamados pendentes no banco de dados e passá-los para a página de adminDashboard.ejs
+  // Exemplo:
+  Ticket.find({ status: 'pending' }, (err, tickets) => {
+    if (err) {
+      console.error('Erro ao buscar os chamados pendentes:', err);
+      res.status(500).send('Erro ao buscar os chamados pendentes.');
+    } else {
+      res.render('adminDashboard', { tickets });
+    }
+  });
 });
+
+
+
 app.get('/user/create-ticket', isLoggedIn, (req, res) => {
   res.render('createTicket', { message: req.flash('message') });
 }); 
