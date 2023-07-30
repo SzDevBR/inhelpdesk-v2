@@ -1,60 +1,45 @@
+<!-- adminDashboard.ejs -->
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel de Administração - Help Desk</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" type="text/css" href="styles.css" /> 
+  <title>Painel de Administração</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="/" class="logo">Help Desk</a>
-      <ul>
-        <li><a href="/admin/dashboard">Painel de Administração</a></li>
-        <li><a href="/logout">Sair</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section class="ticket-list">
-      <h2>Chamados Pendentes</h2>
+  <div class="container">
+    <h2>Painel de Administração</h2>
+    <h3>Chamados Pendentes</h3>
+    <div class="ticket-list">
       <table>
         <thead>
           <tr>
-            <th>Assunto</th>
+            <th>ID</th>
             <th>Categoria</th>
-            <th>Enviado Por</th>
-            <th>Ação</th>
+            <th>Assunto</th>
+            <th>Data de Criação</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <!-- Aqui você pode adicionar dinamicamente as linhas da tabela com os chamados pendentes -->
-          <!-- Exemplo: -->
-          <tr>
-            <td>Problema de Conexão</td>
-            <td>Rede</td>
-            <td>user@example.com</td>
-            <td>
-              <a href="/admin/respond-ticket/1">Responder</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Problema de Impressão</td>
-            <td>Hardware</td>
-            <td>anotheruser@example.com</td>
-            <td>
-              <a href="/admin/respond-ticket/2">Responder</a>
-            </td>
-          </tr>
-          <!-- Adicione mais linhas conforme necessário -->
+          <% pendingTickets.forEach((ticket) => { %>
+            <tr>
+              <td><%= ticket._id %></td>
+              <td><%= ticket.category %></td>
+              <td><%= ticket.subject %></td>
+              <td><%= ticket.createdAt.toLocaleString() %></td>
+              <td>
+                <a href="/admin/respond-ticket/<%= ticket._id %>">Responder</a>
+                <a href="/admin/delete-ticket/<%= ticket._id %>">Excluir</a>
+              </td>
+            </tr>
+          <% }); %>
         </tbody>
       </table>
-    </section>
-  </main>
-  <footer>
-    <p>Todos os direitos reservados &copy; 2023 Help Desk</p>
-  </footer>
+    </div>
+    <a href="/logout">Logout</a>
+  </div>
 </body>
 </html>
