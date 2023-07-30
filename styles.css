@@ -107,3 +107,149 @@ footer {
 .login-form input[type="submit"]:hover {
   background-color: #555;
 }
+
+/* Página de criação de chamados (createTicket.ejs) */
+.create-ticket-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.create-ticket-form h2 {
+  margin-bottom: 1rem;
+}
+
+.create-ticket-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.create-ticket-form input,
+.create-ticket-form textarea,
+.create-ticket-form select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-ticket-form select {
+  appearance: none;
+}
+
+.create-ticket-form input[type="file"] {
+  border: none;
+}
+
+.create-ticket-form textarea {
+  resize: vertical;
+}
+
+.create-ticket-form input[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.create-ticket-form input[type="submit"]:hover {
+  background-color: #444;
+}
+
+.message {
+  background-color: #a1dca1;
+  color: #155716;
+  padding: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Página do painel de administração (adminDashboard.ejs) */
+.ticket-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.ticket-list h2 {
+  margin-bottom: 1rem;
+}
+
+.ticket-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-list th,
+.ticket-list td {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.ticket-list th {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.ticket-list td a {
+  display: inline-block;
+  background-color: #333;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border: 2px solid #333;
+  border-radius: 4px;
+}
+
+.ticket-list td a:hover {
+  background-color: #fff;
+  color: #333;
+}
+
+/* Página de resposta de chamados (respondTicket.ejs) */
+.respond-ticket-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.respond-ticket-form h2 {
+  margin-bottom: 1rem;
+}
+
+.respond-ticket-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.respond-ticket-form textarea {
+  width: 100%;
+  height: 150px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.respond-ticket-form input[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.respond-ticket-form input[type="submit"]:hover {
+  background-color: #444;
+}
