@@ -5,6 +5,9 @@ const flash = require('connect-flash');
 const { User, Ticket } = require('./models');
 const bcrypt = require('bcryptjs');
 const mongoose = require('./db');
+const bodyParser = require('body-parser');
+const multer = require('multer'); // Adicione esta linha para lidar com o upload de arquivos
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
