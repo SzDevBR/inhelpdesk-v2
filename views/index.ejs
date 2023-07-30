@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Help Desk</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <% if (message.length > 0) { %>
-    <p><%= message %></p>
-  <% } %>
-  <h1>Bem-vindo ao sistema de Help Desk</h1>
-  <a href="/login">Login</a> | <a href="/register">Registrar</a>
+  <header>
+    <nav>
+      <a href="/" class="logo">Help Desk</a>
+      <ul>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Registrar</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Bem-vindo ao sistema de Help Desk</h1>
+        <p>Resolva seus problemas de forma rápida e eficiente.</p>
+        <a href="/login" class="btn">Começar</a>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>Todos os direitos reservados &copy; 2023 Help Desk</p>
+  </footer>
 </body>
-  </html>
-    
+</html>
