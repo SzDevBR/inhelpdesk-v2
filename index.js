@@ -15,6 +15,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(session({ secret: 'your-secret-key', resave: true, saveUninitialized: true }));
 app.use(flash());
 
+app.use(express.static('public'));
+
 // Middleware para verificar se o usuário está logado
 const isLoggedIn = (req, res, next) => {
   if (req.session.user) {
