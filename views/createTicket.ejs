@@ -19,7 +19,7 @@
   <main>
     <section class="create-ticket-form">
       <h2>Criar Chamado</h2>
-      <form action="/create-ticket" method="post">
+      <form action="/create-ticket" method="post" enctype="multipart/form-data">
         <label for="subject">Assunto:</label>
         <input type="text" id="subject" name="subject" required>
 
@@ -34,6 +34,9 @@
 
         <label for="description">Descrição:</label>
         <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="attachment">Anexar arquivo (limite de 50 MB):</label>
+        <input type="file" id="attachment" name="attachment" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" size="52428800">
 
         <input type="submit" value="Enviar Chamado">
       </form>
