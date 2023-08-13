@@ -1,8 +1,6 @@
 // db.js
 const mongoose = require('mongoose');
 
-// URL do banco de dados MongoDB
-const mongoURI = 'mongodb+srv://inderux:inderux@cluster0.yuzl0.mongodb.net/?retryWrites=true&w=majority';
 
 // Configuração do MongoDB
 mongoose.connect(mongoURI, {
